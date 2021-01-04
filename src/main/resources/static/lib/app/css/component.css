@@ -1,0 +1,53 @@
+::-webkit-input-placeholder { color: #aaa!important; font-size: 0.725rem!important; }
+::-moz-placeholder { color: #aaa!important; font-size: 0.725rem!important; }
+:-ms-input-placeholder { color: #aaa!important; font-size: 0.725rem!important; }
+
+/** dl dt **/
+
+dl.row > dt {
+	overflow: hidden;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    text-align: right;
+	color: #666;
+	font-size: 13px;
+	line-height: 28px;
+    padding: 0 1rem 0 0;
+}
+dl.row > dd {
+	word-break: break-all;
+	font-size: 13px;
+	line-height: 28px;
+	padding: 0;
+	margin-bottom: 0;
+}
+
+/** toast **/
+
+.toast-top-center { top: 20px; }
+#toast-container > .toast-success { background-color: #35aa47; }
+
+
+
+
+/** validation **/
+
+.select-group~.invalid-feedback {display: inline-block; }
+select.form-control.is-invalid:disabled, select.form-control.is-invalid:not([size]):not([multiple]):disabled { border-color: #f44336; }
+
+
+
+.alert {
+    padding: 0.5rem 0.5rem;
+    margin-bottom: 0px;
+}
+
+
+
+
+
+
+
+
+

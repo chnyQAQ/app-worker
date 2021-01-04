@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dah.cem.app.sc.worker.domain.target.BaseTargetMapper">
+
+    <select id="getByProbeCode" resultType="com.dah.cem.app.sc.worker.domain.target.BaseTarget">
+		select * from dah_equip_target where probeCode = #{probeCode}
+	</select>
+
+    <select id="getByTargetCode" resultType="com.dah.cem.app.sc.worker.domain.target.BaseTarget">
+		select * from dah_equip_target where targetCode = #{targetCode}
+	</select>
+
+    <select id="getAll" resultType="com.dah.cem.app.sc.worker.domain.target.BaseTarget">
+        select * from dah_equip_target
+    </select>
+
+    <select id="getPage" resultType="com.dah.cem.app.sc.worker.domain.target.BaseTarget">
+        select * from dah_equip_target where 1=1
+        <if test="search != null and search != ''">
+            <bind name="search" value="'%' + search + '%'"/>
+            and (probeCode like #{search}
+            or equipCode like #{search}
+            or targetCode like #{search}
+            or gatewayCode like #{search}
+            or pointCode like #{search}
+            or pointName like #{search}
+            or unitCode like #{search}
+            or unitName like #{search})
+        </if>
+        order by probeCode asc
+    </select>
+
+    <insert id="save" parameterType="com.dah.cem.app.sc.worker.domain.target.BaseTarget">
+		insert into dah_equip_target
+		 (probeCode, equipCode, targetCode, gatewayCode, frequncey, pointCode, pointName, unitCode, unitName)
+		values
+		(#{probeCode}, #{equipCode}, #{targetCode}, #{gatewayCode}, #{frequncey}, #{pointCode}, #{pointName}, #{unitCode}, #{unitName})
+	</insert>
+
+    <update id="update" parameterType="com.dah.cem.app.sc.worker.domain.target.BaseTarget">
+		update dah_equip_target set
+			equipCode =	#{equipCode},
+			targetCode	= #{targetCode},
+			gatewayCode = #{gatewayCode},
+			frequncey	= #{frequncey},
+			pointCode = #{pointCode},
+			pointName = #{pointName},
+			unitCode	= #{unitCode},
+			unitName	= #{unitName}
+		where probeCode = #{probeCode}
+	</update>
+
+    <delete id="remove">
+		delete from dah_equip_target where probeCode = #{probeCode}
+	</delete>
+
+    <delete id="removeByUnitCode">
+		delete from dah_equip_target where unitCode = #{unitCode}
+	</delete>
+
+</mapper>

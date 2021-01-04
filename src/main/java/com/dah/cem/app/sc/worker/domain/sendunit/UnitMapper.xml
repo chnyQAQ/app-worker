@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dah.cem.app.sc.worker.domain.sendunit.UnitMapper">
+
+    <select id="getByUnitCode" resultType="com.dah.cem.app.sc.worker.domain.sendunit.Unit">
+        select * from dah_send_unit where unitCode = #{unitCode}
+    </select>
+
+    <select id="getPage" resultType="com.dah.cem.app.sc.worker.domain.sendunit.Unit">
+        select DISTINCT(unit.unitCode) as unitCode, unit.updateTime, target.unitName as unitName from dah_send_unit unit
+        left join dah_equip_target target on target.unitCode = unit.unitCode
+        where 1=1
+        <if test="search != null and search != ''">
+            <bind name="search" value="'%' + search + '%'"/>
+            and (unit.unitCode like #{search} or target.unitName like #{search})
+        </if>
+        order by unit.updateTime desc, unit.unitCode asc
+    </select>
+
+    <insert id="save" parameterType="com.dah.cem.app.sc.worker.domain.sendunit.Unit">
+		insert into dah_send_unit
+		 (unitCode, updateTime)
+		values
+		(#{unitCode}, #{updateTime})
+	</insert>
+
+    <update id="update" parameterType="com.dah.cem.app.sc.worker.domain.sendunit.Unit">
+		update dah_send_unit set updateTime = #{updateTime}
+		where unitCode = #{unitCode}
+	</update>
+
+</mapper>

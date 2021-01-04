@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dah.cem.app.sc.worker.domain.prober.ProberStatusMapper">
+
+    <select id="getLast" resultType="com.dah.cem.app.sc.worker.domain.prober.ProberStatus">
+		select top(#{limit}) * from prober_history_status_target order by probeTime asc
+	</select>
+
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from prober_history_status_target
+	</select>
+
+    <insert id="save" parameterType="com.dah.cem.app.sc.worker.domain.prober.ProberStatus">
+		insert into prober_history_status_target(id, code, probeValue, status, subStatus, probeTime, gatewayCode)
+		values(#{id}, #{code}, #{probeValue}, #{status}, #{subStatus}, #{probeTime}, #{gatewayCode})
+	</insert>
+
+    <delete id="remove" parameterType="java.lang.String">
+		delete from prober_history_status_target where id = #{id}
+	</delete>
+
+    <delete id="removeLast" parameterType="java.lang.Integer">
+		delete from prober_history_status_target where id in (select id from prober_history_status_target order by probeTime asc limit #{limit})
+	</delete>
+
+</mapper>

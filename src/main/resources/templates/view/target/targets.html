@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{decorator/decorator-default}">
+
+	<head>
+		<title>指标列表</title>
+	</head>
+	
+	<body>
+
+		<th:block layout:fragment="js">
+			<script type="text/javascript" th:src="@{/view/target/targets.js}" ></script>
+		</th:block>
+		
+		<th:block layout:fragment="content">
+			<div class="page-header">
+				<nav>
+					<span class="left-nav-toggle"></span>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/}"><i class="fas fa-home"></i> 首页</a></li>
+						<li class="breadcrumb-item active">指标列表</li>
+					</ol>
+				</nav>
+			</div>
+
+			<div class="page-title">
+				<h5><i class="far fa-list-alt"></i> 指标列表</h5>
+				<div>
+					<button id="importButton" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#fileModal"><i class="fas fa-file-excel"></i> 导入</button>
+					<button id="addButton" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> 新建</button>
+				</div>
+			</div>
+
+			<div class="page-body">
+				<div class="card">
+					<div class="card-body">
+						<div class="card-title">
+							<form id="searchForm" class="form-inline">
+								<div class="input-group input-group-sm">
+									<div class="input-group-prepend">
+										<span class="input-group-text">关键字</span>
+									</div>
+									<input name="search" type="text" class="form-control" placeholder="探测器编码/设备编码/指标编码/网关编码/重大危险源编码（名称）/企业编码（名称）" style="width: 500px;">
+								</div>
+								<div class="input-group input-group-sm">
+									<button class="btn btn-sm btn-primary" type="submit">搜索</button>
+									<button class="btn btn-sm btn-outline-light" type="reset">重置</button>
+								</div>
+							</form>
+						</div>
+						<table class="table table-striped table-hover table-bordered">
+							<thead>
+								<tr>
+									<th>探测器编码</th>
+									<th>设备编码</th>
+									<th>指标编码</th>
+									<th>网关编码</th>
+									<th>网关采集周期</th>
+									<th>重大危险源编码</th>
+									<th>重大危险源名称</th>
+									<th>企业编码</th>
+									<th>企业名称</th>
+									<th width="100px">操作</th>
+								</tr>
+							</thead>
+						</table>
+						<nav class="navbar">
+							<div class="pagination-info"></div>
+							<ul class="pagination"></ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" tabindex="-1" data-backdrop="static">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
+					<div class="modal-content">
+						<form id="dataForm">
+							<div class="modal-header">
+								<h5 class="modal-title"></h5>
+								<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label"><i class="text-danger">*</i> 探测器编码</label>
+									<div class="col-sm-9">
+										<input name="probeCode" class="form-control" type="text" autocomplete="off">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label" title="重大危险源编码（12位）+设备类型编码（2位：G0[罐]/Q0[气体检测仪]）+3位流水号">
+										<i class="text-danger">*</i> 设备编码
+										<i class="fa fa-question-circle" title="重大危险源编码（12位）+设备类型编码（2位：G0[罐]/Q0[气体检测仪]）+3位流水号"></i>
+									</label>
+									<div class="col-sm-9">
+										<input name="equipCode" class="form-control" type="text" autocomplete="off" placeholder="重大危险源编码（12位）+设备类型编码（2位：G0[罐]/Q0[气体检测仪]）+3位流水号">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label" title="设备编码（17位）+指标类型编码（2位：WD[温度]/YL[液压]/YW[液位]/QT[气体]）+3位流水号">
+										<i class="text-danger">*</i> 指标编码
+										<i class="fa fa-question-circle" title="设备编码（17位）+指标类型编码（2位：WD[温度]/YL[液压]/YW[液位]/QT[气体]）+3位流水号"></i>
+									</label>
+									<div class="col-sm-9">
+										<input name="targetCode" class="form-control" type="text" autocomplete="off" placeholder="设备编码（17位）+指标类型编码（2位：WD[温度]/YL[液压]/YW[液位]/QT[气体]）+3位流水号">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-md-3 col-form-label" title="隶属于企业的网关按照企业编码（9位）+流水号（2位）；多个企业共用的网关（包括虚拟网关）按照市级行政区域编码（4位）+流水号（4位）">
+										<i class="text-danger">*</i>网关编码
+										<i class="fa fa-question-circle" title="隶属于企业的网关按照企业编码（9位）+流水号（2位）；多个企业共用的网关（包括虚拟网关）按照市级行政区域编码（4位）+流水号（4位）"></i>
+									</label>
+									<div class="col-md-9">
+										<input type="text" class="form-control" name="gatewayCode" placeholder="隶属于企业的网关按照企业编码（9位）+流水号（2位）；多个企业共用的网关（包括虚拟网关）按照市级行政区域编码（4位）+流水号（4位）">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-md-3 col-form-label"><i class="text-danger">*</i>网关采集周期(秒)</label>
+									<div class="col-md-9">
+										<input type="number" class="form-control" name="frequncey">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label" title="企业编码（9位）+流水号（3位）"><i class="text-danger">*</i> 重大危险源编码
+										<i class="fa fa-question-circle" title="企业编码（9位）+流水号（3位）"></i>
+									</label>
+									<div class="col-sm-9">
+										<input name="pointCode" id="code" class="form-control" type="text" placeholder="企业编码（9位）+流水号（3位）">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-3 col-form-label"><i class="text-danger">*</i> 企业编码</label>
+									<div class="col-sm-9">
+										<input name="unitCode" class="form-control" type="text" autocomplete="off">
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save"></i> 保存</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal"><i class="fas fa-ban"></i> 取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- 导入文件-->
+			<div id="fileModal" class="modal fade" tabindex="-1" data-backdrop="static">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<form id="fileForm" enctype="multipart/form-data">
+							<div class="modal-header">
+								<h5 class="modal-title"><i class="fas fa-file-excel"></i> 导入指标数据</h5>
+								<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group row">
+									<a class="btn btn-sm btn-primary col-sm-12" target="_blank" id="tempFileDownload" href="#">下载指标数据模板</a>
+								</div>
+								<div class="form-group row">
+									<div class="custom-file">
+										<input name="file" type="file" class="custom-file-input" id="inputFile" readonly>
+										<label class="custom-file-label" for="inputFile">选择文件</label>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="alert alert-warning col-sm-12 text-center">导入将会删除相关企业的全部数据</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-sm btn-primary" id="importBtn"><i class="fas fa-save"></i> 保存</button>
+								<button type="button" class="btn btn-sm btn-light" data-dismiss="modal"><i class="fas fa-ban"></i> 取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</th:block>
+		
+	</body>
+		
+</html>

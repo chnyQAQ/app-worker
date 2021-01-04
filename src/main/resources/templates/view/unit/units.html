@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{decorator/decorator-default}">
+
+	<head>
+		<title>企业状态</title>
+	</head>
+	
+	<body>
+
+		<th:block layout:fragment="js">
+			<script type="text/javascript" th:src="@{/view/unit/units.js}" ></script>
+		</th:block>
+		
+		<th:block layout:fragment="content">
+			<div class="page-header">
+				<nav>
+					<span class="left-nav-toggle"></span>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/}"><i class="fas fa-home"></i> 首页</a></li>
+						<li class="breadcrumb-item active">企业状态列表</li>
+					</ol>
+				</nav>
+			</div>
+
+			<div class="page-title">
+				<h5><i class="far fa-list-alt"></i> 企业状态列表</h5>
+			</div>
+
+			<div class="page-body">
+				<div class="card">
+					<div class="card-body">
+						<div class="card-title">
+							<form id="searchForm" class="form-inline">
+								<div class="input-group input-group-sm">
+									<div class="input-group-prepend">
+										<span class="input-group-text">关键字</span>
+									</div>
+									<input name="search" type="text" class="form-control" placeholder="企业编码（名称）">
+								</div>
+								<div class="input-group input-group-sm">
+									<button class="btn btn-sm btn-primary" type="submit">搜索</button>
+									<button class="btn btn-sm btn-outline-light" type="reset">重置</button>
+								</div>
+							</form>
+						</div>
+						<table class="table table-striped table-hover table-bordered">
+							<thead>
+								<tr>
+									<th>企业编码</th>
+									<th>企业名称</th>
+									<th>最新推送数据时间</th>
+								</tr>
+							</thead>
+						</table>
+						<nav class="navbar">
+							<div class="pagination-info"></div>
+							<ul class="pagination"></ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</th:block>
+		
+	</body>
+		
+</html>
